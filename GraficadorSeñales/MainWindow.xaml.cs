@@ -181,8 +181,11 @@ namespace GraficadorSeñales
 
             if (cbOperacion.SelectedIndex == 4)
             {
+                //obtenemos la frecuencia baja de la tecla
                 int indiceMaximo = 0;
-                for(int i = 0; i < señalResultante.Muestras.Count / 2; i++)
+                int indiceInicial = (int)((690.0 * (double)(señalResultante.Muestras.Count)) / señalResultante.FrecuenciaMuestreo);
+                int indiceFinal = (int)((950.0 * (double)(señalResultante.Muestras.Count)) / señalResultante.FrecuenciaMuestreo);
+                for (int i = indiceInicial; i < indiceFinal; i++)
                 {
                     if(señalResultante.Muestras[i].Y > señalResultante.Muestras[indiceMaximo].Y)
                     {
@@ -190,7 +193,24 @@ namespace GraficadorSeñales
                     }
                 }
                 double frecuencia = (double)(indiceMaximo * señalResultante.FrecuenciaMuestreo) / (double)señalResultante.Muestras.Count;
-                lblHertz.Text = frecuencia.ToString("N") + "Hz";
+                lblHertz_Baja.Text = frecuencia.ToString("N") + "Hz";
+
+                //obtener la frecuencia alta de la tecla
+                int indiceMaximoAlta = 0;
+                int indiceInicialAlta = (int)((1200.0 * (double)señalResultante.Muestras.Count) / (double)(señalResultante.FrecuenciaMuestreo));
+                int indiceFinalAlta = (int)((1482.0 * (double)señalResultante.Muestras.Count) / (double)(señalResultante.FrecuenciaMuestreo));
+
+                for (int i = indiceInicialAlta; i < indiceFinalAlta; i++)
+                {
+                    if (señalResultante.Muestras[i].Y > señalResultante.Muestras[indiceMaximoAlta].Y)
+                    {
+                        indiceMaximoAlta = i;
+                    }
+                }
+                double frecuenciaAlta = (double)(indiceMaximoAlta * señalResultante.FrecuenciaMuestreo) / (double)señalResultante.Muestras.Count;
+                lblHertz_Alta.Text = frecuenciaAlta.ToString("N") + "Hz";
+
+                
             }
 
             lblLimiteSuperior.Text = amplitudMaxima.ToString("F");
